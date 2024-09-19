@@ -141,7 +141,8 @@ public:
 	}
 };
 
-class Phonebook {
+class Phonebook 
+{
 private:
 	Contact* contacts[100];
 	int contactCount;
@@ -205,18 +206,17 @@ public:
 		{
 			if (strcmp((*contacts[i]).GetName(), name) == 0 && strcmp((*contacts[i]).GetSurname(), surname) == 0 && strcmp((*contacts[i]).GetSecSurname(), sec_surname) == 0)
 			{
-				delete[] contacts[i]; // Звільняємо пам'ять
-				contacts[i] = nullptr; // Уникаємо випадкового повторного доступу
+				delete contacts[i]; 
+				contacts[i] = nullptr; 
 
-				// Переміщуємо всі наступні контакти на одну позицію вліво
 				for (int j = i; j < contactCount - 1; j++) 
 				{
 					contacts[j] = contacts[j + 1];
 				}
 
-				contactCount--; // Зменшуємо кількість контактів
+				contactCount--; 
 				found = true;
-				break; // Виходимо з циклу, оскільки контакт знайдено і видалено
+				break; 
 			}
 		}
 
@@ -242,7 +242,7 @@ public:
 	void WriteToFile(const char* filename) const 
 	{
 		FILE* file;
-		errno_t err = fopen_s(&file, filename, "a");
+		errno_t err = fopen_s(&file, filename, "w");
 		if (err == 0 && file != nullptr)
 		{
 			for (int i = 0; i < contactCount; i++)
@@ -272,7 +272,7 @@ void ClearFileContents(char filename[])
 	}
 }
 
-void SearchByName(Phonebook list)
+void SearchByName(Phonebook& list)
 {
 	char* name = new char[20];
 	cout << "Enter name : ";
@@ -306,7 +306,7 @@ void SearchByName(Phonebook list)
 	delete[] S_Surname;
 }
 
-void RemoveContact(Phonebook list, char filename[])
+void RemoveContact(Phonebook& list, char filename[])
 {
 	int temp = -1;
 
@@ -348,7 +348,7 @@ void ShowMenu()
 {
 	cout << " 1. Show all contacts " << endl << " 2. Search by full name " << endl << " 3. Add new contact " << endl << " 4. Delete contact " << endl << " 0. Exit " << endl;
 }
-void PerformAction(int option, Phonebook list, char filename[])
+void PerformAction(int option, Phonebook& list, char filename[])
 {
 	if (option == 1) list.ViewContactsFromFile();
 	else if (option == 2) SearchByName(list);
